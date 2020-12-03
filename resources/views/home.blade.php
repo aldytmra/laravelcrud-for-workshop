@@ -18,6 +18,11 @@
                         <div class="float-left">
                             <h2>Tutorial CRUD</h2>
                         </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="float-left">
+                            <a class="btn btn-primary" href="{{route('customers.index')}}">Go To Customers</a>
+                        </div>
                         <div class="float-right">
                             <a class="btn btn-warning" href="{{route('products.index')}}">Go To Products</a>
                         </div>

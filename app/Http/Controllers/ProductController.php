@@ -26,7 +26,7 @@ class ProductController extends Controller
             'nama' => 'required',
             'deskripsi' => 'required',
             'berat' => 'required',
-            'harga' => 'required|integer|size:3',
+            'harga' => 'required|integer',
         ]);
  
         Product::create($request->all());
@@ -51,7 +51,7 @@ class ProductController extends Controller
             'nama' => 'required',
             'deskripsi' => 'required',
             'berat' => 'required',
-            'harga' => 'required|integer|size:3',
+            'harga' => 'required|integer',
         ]);
  
         $product->update($request->all());

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -20,17 +21,13 @@ use App\Http\Controllers\ProductController;
 
 
 Route::group(['middleware' => config('fortify.middleware', ['web'])], function () {
-
-    // with fortify guest middleware
-    // Route::get('foo', function () {
-    //    return 'Foo';
-    // })->middleware(['guest']);
-
-    // with fortify auth middleware
-    // Route::get('bar', function () {
-    //    return 'bar';
-    // }) ->middleware(['auth']);
-    Route::get('/', [HomeController::class, 'index'])->middleware(['auth']);
-    Route::get('/home', [HomeController::class, 'index'])->middleware(['auth']); // fortify auth middleware
+    Route::get('/', [HomeController::class, 'index'])->name('home.index')->middleware(['auth']); // fortify auth middleware
     Route::resource('products', ProductController::class)->middleware(['auth']);
+    // Route::resource('customers', CustomerController::class)->middleware(['auth']);
+    Route::get('customers', [CustomerController::class, 'index'])->name('customers.index')->middleware(['auth']);
+    Route::get('customers/create', [CustomerController::class, 'create'])->name('customers.create')->middleware(['auth']);
+    Route::post('customers/store', [CustomerController::class, 'store'])->name('customers.store')->middleware(['auth']);
+    Route::get('customers/{param}/edit', [CustomerController::class, 'edit'])->name('customers.edit')->middleware(['auth']);
+    Route::DELETE('customers/destroy/{param}', [CustomerController::class, 'destroy'])->name('customers.destroy')->middleware(['auth']);
+    Route::get('customers/list', [CustomerController::class, 'getCustomers'])->name('customers.list')->middleware(['auth']);
 });
