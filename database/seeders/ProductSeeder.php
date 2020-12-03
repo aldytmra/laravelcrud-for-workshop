@@ -20,6 +20,7 @@ class ProductSeeder extends Seeder
             'deskripsi' => 'Ini adalah ram terbaik',
             'berat' => '1kg',
             'harga' => 500000,
+            'foto' => 'testing.jpg'
         ]);
 
         \App\Models\Product::factory(10)->create();

@@ -26,7 +26,8 @@ class ProductFactory extends Factory
             'nama' => $this->faker->name,
             'deskripsi' =>  $this->faker->name,
             'berat' =>  $this->faker->name,
-            'harga'=> '1000000'
+            'harga'=> '1000000',
+            'foto'=> $this->faker->name
         ];
     }
 }

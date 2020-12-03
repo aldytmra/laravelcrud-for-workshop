@@ -49,6 +49,15 @@
                             {{ $product->harga }}
                         </div>
                     </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Current Foto:</strong>
+                            @if($product->foto)
+                            <img src="{{asset('storage/'.$product->foto)}}" alt="">
+                            @endif
+                        </div>
+                    </div>
+                   
                 </div>
             </div>
         </div>

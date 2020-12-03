@@ -35,32 +35,38 @@
                     </div>
                 @endif
                  
-                <form action="{{ route('products.store') }}" method="POST">
+                <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                  
                      <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Nama Produk:</strong>
-                                <input type="text" name="nama" class="form-control" placeholder="Nama Produk">
+                                <input type="text"  value="{{ old('nama') }}" name="nama" class="form-control" placeholder="Nama Produk">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Deskripsi:</strong>
-                                <textarea class="form-control" style="height:150px" name="deskripsi" placeholder="Deskripsi"></textarea>
+                                <textarea class="form-control"   style="height:150px" name="deskripsi" placeholder="Deskripsi">{{ old('deskripsi') }}</textarea>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Berat:</strong>
-                                <input type="text" name="berat" class="form-control" placeholder="Berat">
+                                <input type="text" name="berat"  value="{{ old('berat') }}" class="form-control" placeholder="Berat">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Harga:</strong>
-                                <input type="text" name="harga" class="form-control" placeholder="Harga">
+                                <input type="text" name="harga"  value="{{ old('harga') }}" class="form-control" placeholder="Harga">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <strong>Foto Produk:</strong>
+                                <input type="file" name="foto"  class="form-control" placeholder="Foto">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">

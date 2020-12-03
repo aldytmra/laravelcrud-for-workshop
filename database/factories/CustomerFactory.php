@@ -24,7 +24,8 @@ class CustomerFactory extends Factory
         return [
             'first_name' => $this->faker->name,
             'last_name' =>  $this->faker->name,
-            'address' =>  $this->faker->address
+            'address' =>  $this->faker->address,
+            'foto'=> $this->faker->name
         ];
     }
 }

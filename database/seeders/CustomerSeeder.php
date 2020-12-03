@@ -19,6 +19,7 @@ class CustomerSeeder extends Seeder
             'first_name' => 'Aldy',
             'last_name' => 'Tamara',
             'address' => 'buaran',
+            'foto' => 'testing.jpg'
         ]);
 
         \App\Models\Customer::factory(10)->create();

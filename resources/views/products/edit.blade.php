@@ -64,6 +64,17 @@
                                 <input type="text" name="harga" value="{{ $product->harga }}" class="form-control" placeholder="Harga">
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <strong>Foto Produk:</strong>
+                                @if($product->foto)
+                                <br>
+                                Current Foto : <img src="{{asset('storage/'.$product->foto)}}" alt="">
+                                @endif
+                                <br>
+                                <input type="file" name="foto"  class="form-control" placeholder="Foto">
+                            </div>
+                        </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                           <button type="submit" class="btn btn-primary">Update</button>
                         </div>
