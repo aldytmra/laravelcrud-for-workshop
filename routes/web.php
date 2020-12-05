@@ -28,6 +28,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
     Route::get('customers/create', [CustomerController::class, 'create'])->name('customers.create')->middleware(['auth']);
     Route::post('customers/store', [CustomerController::class, 'store'])->name('customers.store')->middleware(['auth']);
     Route::get('customers/{param}/edit', [CustomerController::class, 'edit'])->name('customers.edit')->middleware(['auth']);
-    Route::DELETE('customers/destroy/{param}', [CustomerController::class, 'destroy'])->name('customers.destroy')->middleware(['auth']);
+    Route::post('customers/update', [CustomerController::class, 'update'])->name('customers.update')->middleware(['auth']);
+    Route::delete('customers/destroy/{param}', [CustomerController::class, 'destroy'])->name('customers.destroy')->middleware(['auth']);
     Route::get('customers/list', [CustomerController::class, 'getCustomers'])->name('customers.list')->middleware(['auth']);
 });

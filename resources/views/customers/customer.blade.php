@@ -14,7 +14,7 @@
             </form>
             <div class="container">
                 <h1>Laravel 8 Ajax CRUD </h1>
-                <a class="btn btn-success" href="javascript:void(0)" id="createNewCustomer"> Create New Customer</a>
+                <a class="btn btn-success" href="javascript:void(0)" id="createNewCustomer">Create New Customer</a>
                 <table class="table table-bordered data-table">
                     <thead>
                         <tr>
@@ -36,28 +36,40 @@
                             <h4 class="modal-title" id="modelHeading"></h4>
                         </div>
                         <div class="modal-body">
-                            <form id="CustomerForm" name="CustomerForm" class="form-horizontal">
+                            <form id="CustomerForm" name="CustomerForm" class="form-horizontal" enctype="multipart/form-data">
                                 @csrf
                                <input type="hidden" name="customer_id" id="customer_id">
                                 <div class="form-group">
-                                    <label for="first_name" class="col-sm-2 control-label">First Name</label>
+                                    <label for="first_name" class="col-sm-4 control-label">First Name</label>
                                     <div class="col-sm-12">
                                         <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" value="" maxlength="50" required="">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="first_name" class="col-sm-2 control-label">Last Name</label>
+                                    <label for="first_name" class="col-sm-4 control-label">Last Name</label>
                                     <div class="col-sm-12">
                                         <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" value="" maxlength="50" required="">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="address" class="col-sm-2 control-label">Address</label>
+                                    <label for="address" class="col-sm-4 control-label">Address</label>
                                     <div class="col-sm-12">
                                         <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" value="" maxlength="50" required="">
                                     </div>
                                 </div>
-            
+                                <div class="form-group">
+                                    <label for="address" class="col-sm-4 control-label">Foto Customer</label>
+                                    <div class="col-sm-12">
+                                        <div id="divFoto">
+                                            <br>
+                                            Current Foto :
+                                            <br>
+                                            <img id="fotocustomer" src="" alt="">
+                                        </div>
+                                        <input type="file" name="foto"  class="form-control" placeholder="Foto">
+                                    </div>
+                                </div>
+                               
                                 <div class="col-sm-offset-2 col-sm-10">
                                  <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
                                  </button>
@@ -67,7 +79,6 @@
                     </div>
                 </div>
             </div>
-           
         </div>
     </div>
 </div>
@@ -98,11 +109,14 @@
       });
   
       $('#createNewCustomer').click(function () {
+        $('#divFoto').hide();
           $('#saveBtn').val("create-Customer");
           $('#customer_id').val('');
           $('#CustomerForm').trigger("reset");
           $('#modelHeading').html("Create New Customer");
           $('#ajaxModel').modal('show');
+          $('#fotocustomer').attr('src',"")
+          $('#divFoto').hide();
       });
   
       $('body').on('click', '.editCustomer', function () {
@@ -115,38 +129,47 @@
             $('#first_name').val(data.first_name);
             $('#last_name').val(data.last_name);
             $('#address').val(data.address);
+            $('#fotocustomer').attr('src',"{{asset('storage')}}/"+data.foto)
+            $('#divFoto').show();
         })
      });
   
-      $('#saveBtn').click(function (e) {
+     $('#CustomerForm').submit(function(e) {
           e.preventDefault();
-          $(this).html('Sending..');
-  
+          $('#saveBtn').html('Sending..');
+          let formData = new FormData(this);
+          let customer_id = $('#customer_id').val();
+          let url;
+          if(customer_id == ''){
+            url = "{{ route('customers.store') }}"
+          }else{
+            url = "{{ route('customers.update') }}"
+          }
+
           $.ajax({
-            data: $('#CustomerForm').serialize(),
-            url:  "{{ route('customers.store') }}",
+            data: formData,
+            url:  url,
             type: "POST",
-            dataType: 'json',
+            contentType: false,
+            processData: false,
             success: function (data) {
-  
                 $('#CustomerForm').trigger("reset");
                 $('#ajaxModel').modal('hide');
                 table.draw();
-  
             },
             error: function (data) {
                 console.log('Error:', data);
-                $('#saveBtn').html('Save Changes');
             }
         });
+        $('#saveBtn').html('Save Changes');
       });
+
   
       $('body').on('click', '.deleteCustomer', function () {
   
           var Customer_id = $(this).data("id");
-          confirm("Are You sure want to delete !");
-  
-          $.ajax({
+          if (window.confirm("Are You sure want to delete ?")) {
+            $.ajax({
               type: "DELETE",
               data: {
                     '_token':"{{ csrf_token() }}"
@@ -159,6 +182,8 @@
                   console.log('Error:', data);
               }
           });
+        }
+         
       });
   
     });

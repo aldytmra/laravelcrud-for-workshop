@@ -43,10 +43,6 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        Customer::updateOrCreate(['id' => $request->Customer_id],
-        ['firstName' => $request->firstName, 'info' => $request->info]);        
-
-        return response()->json(['success'=>'Customer saved successfully!']);
     }
 
     /**
@@ -57,8 +53,22 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        Customer::updateOrCreate(['id' => $request->customer_id],
-        ['first_name' => $request->first_name,'last_name' => $request->last_name, 'address' => $request->address]);        
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'address' => 'required',
+            'foto' => 'required|max:10000|mimes:png,jpg,jpeg'
+        ]);
+ 
+        // Product::create($request->all());
+
+        if($request->file('foto')){
+            $file = $request->file('foto')->store('photos', 'public');
+        }else{
+            $file = "";
+        }
+ 
+        Customer::create(['first_name' => $request->first_name,'last_name' => $request->last_name, 'address' => $request->address,'foto'=>$file]);        
 
         return response()->json(['success'=>'Customer saved successfully!']);
     }
@@ -93,9 +103,21 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $Customer = Customer::find($request->get('customer_id'));
+        $Customer->first_name = $request->get('first_name');
+        $Customer->last_name = $request->get('last_name');
+        $Customer->address = $request->get('address');
+
+        if($request->file('foto')){
+            $file = $request->file('foto')->store('photos', 'public');
+            $Customer->foto = $file;
+        }
+
+        $Customer->save();
+
+        return response()->json(['success'=>'Customer updated successfully!']);
     }
 
     /**
