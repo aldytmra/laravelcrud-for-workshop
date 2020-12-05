@@ -65,8 +65,16 @@ class ProductController extends Controller
             'berat' => 'required',
             'harga' => 'required|integer',
         ]);
- 
-        $product->update($request->all());
+        $product->nama = $request->get('nama');
+        $product->deskripsi = $request->get('deskripsi');
+        $product->berat = $request->get('berat');
+        $product->harga = $request->get('harga');
+        if($request->file('foto')){
+            $file = $request->file('foto')->store('photos', 'public');
+            $product->foto = $file;
+        }
+
+        $product->save();
  
         return redirect()->route('products.index')
                         ->with('success','Product updated successfully');
